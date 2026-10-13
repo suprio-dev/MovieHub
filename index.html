@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>MovieHub — Enter Another World</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    :root {
+      color-scheme: dark;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      overflow-x: hidden;
+      font-family: 'Inter', sans-serif;
+      color: #f8fafc;
+      background:
+        radial-gradient(ellipse at 50% -15%, rgba(99, 102, 241, .22), transparent 42%),
+        radial-gradient(ellipse at 100% 35%, rgba(168, 85, 247, .09), transparent 32%),
+        #07070c;
+    }
+
+    ::selection {
+      background: #8b5cf6;
+      color: white;
+    }
+
+    .ambient {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: -1;
+    }
+
+    .orb {
+      position: absolute;
+      border-radius: 9999px;
+      filter: blur(100px);
+      animation: drift 12s ease-in-out infinite alternate;
+    }
+
+    .orb-one {
+      width: 360px;
+      height: 360px;
+      top: 10%;
+      left: -230px;
+      background: rgba(79, 70, 229, .18);
+    }
+
+    .orb-two {
+      width: 400px;
+      height: 400px;
+      top: 35%;
+      right: -280px;
+      background: rgba(147, 51, 234, .14);
+      animation-delay: -5s;
+    }
+
+    @keyframes drift {
+      from {
+        transform: translate3d(0, 0, 0) scale(1);
+      }
+
+      to {
+        transform: translate3d(35px, -35px, 0) scale(1.15);
+      }
+    }
+
+    .glass {
+      background: rgba(255, 255, 255, .025);
+      border: 1px solid rgba(255, 255, 255, .09);
+      backdrop-filter: blur(24px);
+    }
+
+    .brand-mark {
+      background: linear-gradient(135deg, #a78bfa, #6366f1 55%, #4338ca);
+      box-shadow: 0 0 35px rgba(99, 102, 241, .3);
+    }
+
+    .gradient-text {
+      background: linear-gradient(100deg, #c4b5fd 0%, #818cf8 40%, #e879f9 78%, #c4b5fd 100%);
+      background-size: 200% auto;
+      color: transparent;
+      -webkit-background-clip: text;
+      background-clip: text;
+      animation: shimmer 7s linear infinite;
+    }
+
+    @keyframes shimmer {
+      to {
+        background-position: 200% center;
+      }
+    }
+
+    .eyebrow {
+      letter-spacing: .22em;
+    }
+
+    .search-shell {
+      background: linear-gradient(135deg, rgba(129, 140, 248, .12), rgba(255, 255, 255, .025));
+      border: 1px solid rgba(165, 180, 252, .2);
+      transition: border-color .25s, box-shadow .25s, transform .25s;
+    }
+
+    .search-shell:focus-within {
+      border-color: rgba(167, 139, 250, .75);
+      box-shadow: 0 0 0 4px rgba(139, 92, 246, .08), 0 15px 60px rgba(79, 70, 229, .12);
+    }
+
+    .search-button {
+      background: linear-gradient(120deg, #7c3aed, #6366f1 60%, #8b5cf6);
+      background-size: 200% auto;
+      transition: background-position .3s, transform .2s, box-shadow .3s;
+    }
+
+    .search-button:hover {
+      background-position: right center;
+      box-shadow: 0 8px 30px rgba(124, 58, 237, .35);
+    }
+
+    .search-button:active {
+      transform: scale(.97);
+    }
+
+    .genre-chip {
+      border: 1px solid rgba(255, 255, 255, .09);
+      background: rgba(255, 255, 255, .025);
+      color: #a1a1aa;
+      transition: .25s ease;
+    }
+
+    .genre-chip:hover,
+    .genre-chip.active {
+      color: white;
+      background: rgba(139, 92, 246, .14);
+      border-color: rgba(167, 139, 250, .5);
+      transform: translateY(-2px);
+    }
+
+    /* Movie cards: works with the .movie-card class */
+    .movie-card {
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, .09);
+      background: linear-gradient(155deg, #171724, #0d0d15 75%);
+      transition: transform .35s ease, border-color .35s ease, box-shadow .35s ease;
+      animation: card-in .5s ease both;
+    }
+
+    @keyframes card-in {
+      from {
+        opacity: 0;
+        transform: translateY(18px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .movie-card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(167, 139, 250, .55);
+      box-shadow: 0 20px 55px rgba(0, 0, 0, .38), 0 0 28px rgba(99, 102, 241, .09);
+    }
+
+    .movie-card img {
+      display: block;
+      width: 100%;
+      height: 340px;
+      object-fit: cover;
+      background: #151522;
+      transition: transform .6s ease, filter .4s ease;
+    }
+
+    .movie-card:hover img {
+      transform: scale(1.055);
+      filter: saturate(1.1);
+    }
+
+    .movie-card>div {
+      height: 100%;
+    }
+
+    .movie-card>div>div:first-child {
+      overflow: hidden;
+      position: relative;
+    }
+
+    .movie-card>div>div:last-child {
+      padding: 18px;
+    }
+
+    .movie-card p:first-child {
+      color: #f4f4f5;
+      font-size: 15px;
+      font-weight: 750;
+      line-height: 1.5;
+      margin-bottom: 7px;
+    }
+
+    .movie-card p:last-child {
+      color: #9292a6;
+      font-size: 12px;
+      line-height: 1.7;
+    }
+
+    #movieHub>p {
+      grid-column: 1 / -1;
+      text-align: center;
+      color: #a1a1aa;
+      padding: 55px 12px;
+      font-size: 14px;
+    }
+
+    #movieHub:empty::before {
+      content: "Your next cinematic obsession awaits. ✦";
+      display: block;
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 75px 12px;
+      color: #71717a;
+      font-size: 14px;
+    }
+
+    .loader {
+      width: 44px;
+      height: 44px;
+      margin: 55px auto;
+      border: 3px solid rgba(139, 92, 246, .18);
+      border-top-color: #a78bfa;
+      border-right-color: #818cf8;
+      border-radius: 50%;
+      animation: spin .8s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .film-decoration {
+      position: absolute;
+      color: rgba(255, 255, 255, .035);
+      font-size: clamp(100px, 17vw, 210px);
+      font-weight: 900;
+      line-height: 1;
+      user-select: none;
+      pointer-events: none;
+    }
+
+    .status-dot {
+      box-shadow: 0 0 12px rgba(52, 211, 153, .7);
+    }
+
+    @media (max-width: 640px) {
+      .movie-card img {
+        height: 245px;
+      }
+
+      .movie-card>div>div:last-child {
+        padding: 13px;
+      }
+
+      .movie-card p:first-child {
+        font-size: 13px;
+      }
+
+      .film-decoration {
+        display: none;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+
+      *,
+      *::before,
+      *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: .01ms !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Ambient cinematic background -->
+  <div class="ambient">
+    <div class="orb orb-one"></div>
+    <div class="orb orb-two"></div>
+  </div>
+
+  <main class="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12">
+
+    <!-- Navigation -->
+    <nav class="flex items-center justify-between py-6 sm:py-8 border-b border-white/[0.07]">
+
+      <a href="#" class="flex items-center gap-3 group">
+        <div
+          class="brand-mark w-11 h-11 rounded-2xl flex items-center justify-center group-hover:rotate-6 transition-transform">
+          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <rect x="3" y="4" width="18" height="16" rx="3" stroke-width="1.7" />
+            <path d="M3 9h18M8 4v5m8-5v5M8 9v11m8-11v11" stroke-width="1.5" />
+          </svg>
+        </div>
+        <div>
+          <span class="text-xl font-black tracking-tight">movie<span class="text-violet-400">hub</span></span>
+          <p class="text-[9px] text-zinc-500 tracking-[.23em] uppercase">Your cinematic universe</p>
+        </div>
+      </a>
+
+      <div class="hidden md:flex items-center gap-8 text-sm">
+        <a href="#discover" class="text-white hover:text-violet-300 transition-colors">Discover</a>
+        <a href="#collection" class="text-zinc-500 hover:text-white transition-colors">Explore movies</a>
+        <span class="h-5 w-px bg-white/10"></span>
+        <span class="flex items-center gap-2 text-zinc-400">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 status-dot"></span>
+          Made for cinephiles
+        </span>
+      </div>
+
+      <a href="#collection"
+        class="glass rounded-xl px-4 py-2.5 text-xs sm:text-sm font-semibold hover:border-violet-400/50 transition-colors">
+        Start exploring <span class="text-violet-400 ml-1">↗</span>
+      </a>
+
+    </nav>
+
+    <!-- Hero -->
+    <section id="discover" class="relative text-center pt-20 sm:pt-28 lg:pt-32 pb-16 sm:pb-24">
+
+      <span class="film-decoration top-28 left-0 -rotate-12">✳</span>
+      <span class="film-decoration bottom-16 right-0 rotate-12">✦</span>
+
+      <div class="relative z-10">
+
+        <div
+          class="inline-flex items-center gap-2.5 rounded-full border border-violet-400/20 bg-violet-500/[0.08] px-4 py-2 mb-8">
+          <span class="relative flex w-2 h-2">
+            <span class="absolute inline-flex h-full w-full rounded-full bg-violet-400 opacity-70 animate-ping"></span>
+            <span class="relative inline-flex w-2 h-2 rounded-full bg-violet-400"></span>
+          </span>
+          <span class="eyebrow text-[9px] sm:text-[10px] font-bold text-violet-200 uppercase">A universe beyond the
+            ordinary</span>
+        </div>
+
+        <h1 class="text-5xl sm:text-7xl lg:text-[100px] font-black tracking-[-.075em] leading-[.98]">
+          Cinema is<br>
+          <span class="gradient-text">an experience.</span>
+        </h1>
+
+        <p class="max-w-xl mx-auto mt-7 text-sm sm:text-base leading-7 sm:leading-8 text-zinc-400">
+          Some stories stay with you forever. Find the next one.
+          Explore iconic films, unexpected gems, and worlds worth getting lost in.
+        </p>
+
+        <div class="flex items-center justify-center gap-3 mt-7 text-[10px] sm:text-xs text-zinc-500">
+          <span class="text-violet-300">✦</span>
+          <span>Discover</span>
+          <span class="text-zinc-700">/</span>
+          <span>Explore</span>
+          <span class="text-zinc-700">/</span>
+          <span>Fall in love with cinema</span>
+        </div>
+
+        <!-- Search: original IDs preserved -->
+        <form id="movieForm"
+          class="search-shell relative z-10 mt-11 max-w-2xl mx-auto rounded-2xl p-2 flex flex-col sm:flex-row gap-2 text-left">
+
+          <div class="flex items-center gap-3 flex-1 px-3 sm:px-4 min-w-0">
+            <svg class="w-5 h-5 shrink-0 text-violet-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <circle cx="11" cy="11" r="7" stroke-width="1.7" />
+              <path d="m16 16 4 4" stroke-width="1.7" stroke-linecap="round" />
+            </svg>
+
+            <input id="movieInput" type="text" placeholder="A title, a feeling, a whole new world..." autocomplete="off"
+              class="w-full min-w-0 bg-transparent py-4 text-sm text-white placeholder:text-zinc-600 outline-none">
+            <span
+              class="hidden lg:inline-block text-[10px] text-zinc-600 border border-white/10 rounded-md px-2 py-1 whitespace-nowrap">MOVIES</span>
+          </div>
+
+          <button type="submit"
+            class="search-button flex items-center justify-center gap-2 rounded-xl px-7 py-4 text-sm font-bold text-white shrink-0">
+            Explore movies
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path d="M5 12h14m-6-6 6 6-6 6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </button>
+
+        </form>
+
+        <p class="mt-4 text-[11px] text-zinc-600">
+          Press enter to begin your next adventure
+        </p>
+
+        <!-- Suggested searches -->
+        <div class="mt-8 flex flex-wrap items-center justify-center gap-2">
+          <span class="text-[10px] text-zinc-600 mr-1">TRY SEARCHING</span>
+          <button type="button" data-movie-query="Interstellar"
+            class="genre-chip rounded-full px-3 py-2 text-[11px]">Interstellar</button>
+          <button type="button" data-movie-query="Inception"
+            class="genre-chip rounded-full px-3 py-2 text-[11px]">Inception</button>
+          <button type="button" data-movie-query="The Dark Knight"
+            class="genre-chip rounded-full px-3 py-2 text-[11px]">The Dark Knight</button>
+          <button type="button" data-movie-query="Dune"
+            class="genre-chip rounded-full px-3 py-2 text-[11px]">Dune</button>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Collection -->
+    <section id="collection" class="pb-12 sm:pb-16">
+
+      <div class="glass rounded-[26px] sm:rounded-[32px] p-5 sm:p-8 lg:p-10">
+
+        <!-- Section heading -->
+        <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-9">
+
+          <div>
+            <div class="flex items-center gap-2 mb-3">
+              <span class="w-7 h-px bg-violet-400"></span>
+              <p class="eyebrow text-[9px] sm:text-[10px] uppercase font-bold text-violet-300">The movie archive</p>
+            </div>
+
+            <h2 class="text-3xl sm:text-4xl font-extrabold tracking-[-.055em]">
+              Your next <span class="text-zinc-500">obsession.</span>
+            </h2>
+
+            <p class="mt-3 text-xs sm:text-sm text-zinc-500">
+              Every search opens the door to another story.
+            </p>
+          </div>
+
+          <div class="flex items-center gap-3 self-start lg:self-auto">
+            <div
+              class="w-10 h-10 rounded-xl bg-violet-500/10 border border-violet-400/15 flex items-center justify-center">
+              <svg class="w-5 h-5 text-violet-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path d="M4 5h16v14H4zM4 9h16M8 5v4m8-4v4" stroke-width="1.5" stroke-linejoin="round" />
+              </svg>
+            </div>
+            <div>
+              <p class="text-xs font-semibold text-zinc-200">Movie discovery</p>
+              <p class="text-[10px] text-zinc-500 mt-1">Powered by OMDb API</p>
+            </div>
+            <span class="ml-2 w-2 h-2 rounded-full bg-emerald-400 status-dot"></span>
+          </div>
+
+        </div>
+
+        <div class="h-px bg-gradient-to-r from-violet-400/30 via-white/[0.07] to-transparent mb-8"></div>
+
+        <!-- Movie cards injected by script.js -->
+        <div id="movieHub"
+          class="grid grid-cols-1 min-[420px]:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 sm:gap-6"></div>
+
+        <!-- Collection footer -->
+        <div
+          class="mt-10 pt-6 border-t border-white/[0.07] flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p class="text-[10px] sm:text-xs text-zinc-600">
+            The best stories deserve another watch.
+          </p>
+          <a href="#discover" class="text-xs text-violet-300 hover:text-white transition-colors">
+            Back to the beginning ↑
+          </a>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Closing strip -->
+    <footer
+      class="py-7 border-t border-white/[0.06] flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
+      <p class="text-xs font-bold text-zinc-500 tracking-tight">
+        movie<span class="text-violet-400">hub</span><span class="font-normal text-zinc-700"> © 2026</span>
+      </p>
+
+      <p class="text-[10px] sm:text-xs text-zinc-600">
+        BUILT FOR THE LOVE OF STORIES <span class="text-violet-400">✦</span> POWERED BY OMDb
+      </p>
+    </footer>
+
+  </main>
+
+  <script>
+    // Suggested searches use the same input and form as your existing script.js.
+    document.querySelectorAll("[data-movie-query]").forEach((button) => {
+      button.addEventListener("click", () => {
+        const input = document.querySelector("#movieInput");
+        const form = document.querySelector("#movieForm");
+
+        input.value = button.dataset.movieQuery;
+        form.requestSubmit();
+      });
+    });
+  </script>
+
+  <script src="script.js"></script>
+
+</body>
+
+</html>
