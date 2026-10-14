@@ -157,7 +157,7 @@
       transform: translateY(-2px);
     }
 
-    /* Movie cards: works with the .movie-card class */
+    /* Movie card */
     .movie-card {
       position: relative;
       overflow: hidden;
@@ -331,7 +331,7 @@
           </svg>
         </div>
         <div>
-          <span class="text-xl font-black tracking-tight">movie<span class="text-violet-400">hub</span></span>
+          <span class="text-xl font-black tracking-tight">Movie<span class="text-violet-400">Hub</span></span>
           <p class="text-[9px] text-zinc-500 tracking-[.23em] uppercase">Your cinematic universe</p>
         </div>
       </a>
@@ -371,7 +371,7 @@
             ordinary</span>
         </div>
 
-        <h1 class="text-5xl sm:text-7xl lg:text-[100px] font-black tracking-[-.075em] leading-[.98]">
+        <h1 class="text-5xl sm:text-7xl lg:text-[100px] font-black leading-[.98] tracking-normal">
           Cinema is<br>
           <span class="gradient-text">an experience.</span>
         </h1>
@@ -390,7 +390,7 @@
           <span>Fall in love with cinema</span>
         </div>
 
-        <!-- Search: original IDs preserved -->
+        <!-- Search: -->
         <form id="movieForm"
           class="search-shell relative z-10 mt-11 max-w-2xl mx-auto rounded-2xl p-2 flex flex-col sm:flex-row gap-2 text-left">
 
@@ -477,7 +477,7 @@
 
         <div class="h-px bg-gradient-to-r from-violet-400/30 via-white/[0.07] to-transparent mb-8"></div>
 
-        <!-- Movie cards injected by script.js -->
+        <!-- Movie cards -->
         <div id="movieHub"
           class="grid grid-cols-1 min-[420px]:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 sm:gap-6"></div>
 
@@ -499,7 +499,7 @@
     <footer
       class="py-7 border-t border-white/[0.06] flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
       <p class="text-xs font-bold text-zinc-500 tracking-tight">
-        movie<span class="text-violet-400">hub</span><span class="font-normal text-zinc-700"> © 2026</span>
+        Movie<span class="text-violet-400">Hub</span><span class="font-normal text-zinc-700"> © 2026</span>
       </p>
 
       <p class="text-[10px] sm:text-xs text-zinc-600">
@@ -510,7 +510,7 @@
   </main>
 
   <script>
-    // Suggested searches use the same input and form as your existing script.js.
+
     document.querySelectorAll("[data-movie-query]").forEach((button) => {
       button.addEventListener("click", () => {
         const input = document.querySelector("#movieInput");

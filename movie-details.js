@@ -1,13 +1,13 @@
 const movieDetail = document.querySelector("#movie-detail");
 const params = new URLSearchParams(location.search);
-const imdbID = params.get("id");
+const imdbID = params.get("id");    // extracting id from URL
 console.log(params, imdbID);
 
 if (imdbID) {
   searchMovie(imdbID.trim());
 }
 
-
+// search movie
 
 async function searchMovie(imdbID) {
 
@@ -26,6 +26,7 @@ async function searchMovie(imdbID) {
 
 }
 
+// display movie
 
 function displayMovie(data) {
   movieDetail.innerHTML = ` <div>
